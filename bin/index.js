@@ -5,10 +5,23 @@ const { args, isAll, isList } = parse();
 
 const dir = process.cwd();
 
-if (!isAll && !isList) {
-  let files = fs.readdirSync(dir);
+let files = fs.readdirSync(dir);
+let output = "";
+
+if (!isAll) {
   files = files.filter((file) => file.indexOf(".") !== 0);
-  let output = "";
-  files.forEach((file) => (output += file + "      "));
-  console.log(output);
 }
+
+if (!isList) {
+  files.forEach((file) => (output += file + "      "));
+} else {
+  files.forEach((file, index) => {
+    if (index === files.length - 1) {
+      output += file;
+    } else {
+      output += file + "\n";
+    }
+  });
+}
+
+console.log(output);
