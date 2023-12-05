@@ -5,6 +5,7 @@ const { args, isAll, isList } = parse();
 const auth = require("./auth");
 const getFileType = require("./getFileType");
 const getFileUser = require("./getFileUser");
+const getFileSizeAndDate = require("./getFileSizeAndDate");
 
 const dir = process.cwd();
 
@@ -24,7 +25,16 @@ if (!isList) {
     const fileType = getFileType(mode);
     const fileUser = getFileUser(stat);
     const authString = auth(mode);
-    output += fileType + authString + " " + fileUser + "\t" + file;
+    const fileSizeAndDate = getFileSizeAndDate(stat);
+    output +=
+      fileType +
+      authString +
+      " " +
+      fileUser +
+      " " +
+      fileSizeAndDate +
+      "\t" +
+      file;
     if (index !== files.length - 1) {
       output += "\n";
     }
