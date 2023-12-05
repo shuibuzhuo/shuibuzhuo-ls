@@ -21,6 +21,12 @@ if (!isList) {
 } else {
   files.forEach((file, index) => {
     const stat = fs.statSync(file);
+    const isDirectory = stat.isDirectory();
+    let size = 1;
+    if (isDirectory) {
+      const subDir = fs.readdirSync(file);
+      size = subDir.length;
+    }
     const mode = stat.mode;
     const fileType = getFileType(mode);
     const fileUser = getFileUser(stat);
@@ -29,6 +35,8 @@ if (!isList) {
     output +=
       fileType +
       authString +
+      " " +
+      size +
       " " +
       fileUser +
       " " +
